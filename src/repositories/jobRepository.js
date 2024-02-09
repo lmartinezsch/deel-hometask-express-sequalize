@@ -1,6 +1,6 @@
-const {Job, Contract} = require('../model');
-const {Op} = require("sequelize");
-const {ContractStatusEnum} = require("../utils/utils.enum");
+const {Job, Contract} = require('../model')
+const {Op} = require("sequelize")
+const {ContractStatusEnum} = require("../utils/utils.enum")
 
 class JobRepository {
 
@@ -16,7 +16,7 @@ class JobRepository {
                 required: true,
                 attributes: [],
             }]
-        });
+        })
     }
 
     getTotalJobPricesForProfile = (profile) => {
@@ -25,8 +25,8 @@ class JobRepository {
                 model: Contract,
                 where: {ClientId: profile.id}
             }]
-        });
+        })
     }
 }
 
-module.exports = JobRepository;
+module.exports = JobRepository

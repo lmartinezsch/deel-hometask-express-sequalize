@@ -1,4 +1,5 @@
-const {Profile} = require("../model");
+const {Profile} = require("../model")
+const {ProfileNotFoundError, DepositAmountExceedsLimitError} = require("../errors/errors")
 
 class BalanceService {
 
@@ -11,7 +12,7 @@ class BalanceService {
         try {
             const profile = await Profile.findByPk(clientId)
             if (!profile) {
-                throw new Error('Profile not found')
+                throw new ProfileNotFoundError('Profile not found')
             }
 
             await this.checkContracts(profile, amount)
@@ -23,11 +24,11 @@ class BalanceService {
 
     checkContracts = async (profile, amount) => {
         const totalJobPrices = await this.jobRepository.getTotalJobPricesForProfile(profile)
-        const newBalance = profile.balance + amount;
-        const twentyFivePercent = totalJobPrices * 0.25;
+        const newBalance = profile.balance + amount
+        const twentyFivePercent = totalJobPrices * 0.25
 
         if (newBalance > twentyFivePercent) {
-            throw new Error('The deposit amount exceeds 25% of the total job prices');
+            throw new DepositAmountExceedsLimitError('The deposit amount exceeds 25% of the total job prices')
         }
     }
 

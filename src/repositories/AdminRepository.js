@@ -1,4 +1,4 @@
-const {sequelize} = require("../model");
+const {sequelize} = require("../model")
 
 class AdminRepository {
 
@@ -14,16 +14,16 @@ class AdminRepository {
                   AND j.paymentDate >= :startDate
                   AND j.paymentDate <= :endDate
                 GROUP BY p.profession
-                ORDER BY totalEarned DESC LIMIT 1;
+                ORDER BY totalEarned DESC LIMIT 1
             `, {
                 replacements: {startDate, endDate},
                 type: sequelize.QueryTypes.SELECT
-            });
+            })
 
-            return result.length > 0 ? result[0] : null;
+            return result.length > 0 ? result[0] : null
         } catch (error) {
-            console.error('Error to getMostProfitableProfession:', error);
-            throw error;
+            console.error('Error to getMostProfitableProfession:', error)
+            throw error
         }
     }
 
@@ -42,16 +42,16 @@ class AdminRepository {
                   AND j.paymentDate >= :startDate
                   AND j.paymentDate <= :endDate
                 GROUP BY p.id
-                ORDER BY paid DESC LIMIT :limit;
+                ORDER BY paid DESC LIMIT :limit
             `, {
                 replacements: {startDate, endDate, limit},
                 type: sequelize.QueryTypes.SELECT
-            });
+            })
 
-            return result;
+            return result
         } catch (error) {
-            console.error('Error to findClientsPaymentsInRange:', error);
-            throw error;
+            console.error('Error to findClientsPaymentsInRange:', error)
+            throw error
         }
     }
 }

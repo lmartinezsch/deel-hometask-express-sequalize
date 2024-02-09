@@ -1,3 +1,5 @@
+const {ProfileNotFoundError, DepositAmountExceedsLimitError} = require("../errors/errors")
+
 class BalanceController {
 
     constructor(balanceService) {
@@ -5,17 +7,22 @@ class BalanceController {
     }
 
     deposit = async (req, res) => {
-        console.log("balance controller")
-
         const {userId} = req.params
         const {amount} = req.body
 
         try {
             await this.balanceService.depositMoney(userId, amount)
-            res.status(204).json();
+            res.status(204).json()
         } catch (error) {
-            console.error('Error to deposit:', error);
-            res.status(500).json({error: 'Internal server error'});
+            console.error('Error to deposit:', error)
+            if (error instanceof ProfileNotFoundError) {
+                res.status(404).json({error: error.message})
+            } else if (error instanceof DepositAmountExceedsLimitError) {
+                res.status(400).json({error: error.message})
+            } else {
+                console.error(error)
+                res.status(500).json({error: 'Internal server error'})
+            }
         }
     }
 }

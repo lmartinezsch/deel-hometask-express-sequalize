@@ -1,4 +1,4 @@
-const AdminService = require("../../services/adminService");
+const AdminService = require("../../services/adminService")
 
 describe('AdminService', () => {
     const mockAdminRepository = {

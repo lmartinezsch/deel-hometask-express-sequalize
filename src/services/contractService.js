@@ -1,5 +1,5 @@
-const {Contract} = require("../model");
-const {ProfileTypesEnum} = require("../utils/utils.enum");
+const {Contract} = require("../model")
+const {ProfileTypesEnum} = require("../utils/utils.enum")
 
 class ContractService {
     getContractsById = async (id, clientId) => {
@@ -16,14 +16,14 @@ class ContractService {
                     'ClientId': userId,
                     'status': status,
                 }
-            });
+            })
         } else if (type === ProfileTypesEnum.CONTRACTOR) {
             return Contract.findAll({
                 where: {
                     'ContractorId': userId,
                     'status': status,
                 }
-            });
+            })
         }
     }
 

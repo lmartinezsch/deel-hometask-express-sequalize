@@ -1,10 +1,10 @@
-const {Contract} = require("../model");
-const {Op} = require("sequelize");
-const {ContractStatusEnum} = require("../utils/utils.enum");
+const {Contract} = require("../model")
+const {Op} = require("sequelize")
+const {ContractStatusEnum} = require("../utils/utils.enum")
 
 class ContractController {
     constructor(contractService) {
-        this.contractService = contractService;
+        this.contractService = contractService
     }
 
     /**
@@ -19,10 +19,10 @@ class ContractController {
             if (!contract) return res.status(404).end()
             res.json(contract)
         } catch (error) {
-            console.error('Error to get specific contract:', error);
-            res.status(500).json({error: error.message});
+            console.error('Error to get specific contract:', error)
+            res.status(500).json({error: error.message})
         }
-    };
+    }
 
     /**
      * @returns all constracts by cliendId and status not equal to terminated
@@ -33,12 +33,12 @@ class ContractController {
         try {
             const contracts = await this.contractService.getContractsBy(id, type, status)
 
-            res.json(contracts);
+            res.json(contracts)
         } catch (error) {
-            console.error('Error to get contracts:', error);
-            res.status(500).json({error: 'Internal server error'});
+            console.error('Error to get contracts:', error)
+            res.status(500).json({error: 'Internal server error'})
         }
-    };
+    }
 
 }
 

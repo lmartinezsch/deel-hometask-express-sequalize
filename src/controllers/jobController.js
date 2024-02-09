@@ -1,4 +1,4 @@
-const {ProfileTypesEnum} = require("../utils/utils.enum");
+const {ProfileTypesEnum} = require("../utils/utils.enum")
 
 class JobController {
 
@@ -13,8 +13,8 @@ class JobController {
             const jobs = await this.service.getAllUnpaidJobsByUser(userId)
             res.json(jobs)
         } catch (error) {
-            console.error('Error to get unpiad jobs:', error);
-            res.status(500).json({error: 'Internal server error'});
+            console.error('Error to get unpiad jobs:', error)
+            res.status(500).json({error: 'Internal server error'})
         }
     }
 
@@ -23,10 +23,10 @@ class JobController {
 
         try {
             await this.service.payContractorForJob(req.profile, id)
-            res.status(204).json();
+            res.status(204).json()
         } catch (error) {
-            console.error('Error to pay for a job:', error);
-            res.status(500).json({error: 'Internal server error'});
+            console.error('Error to pay for a job:', error)
+            res.status(500).json({error: 'Internal server error'})
         }
     }
 

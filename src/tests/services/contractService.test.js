@@ -1,19 +1,19 @@
-const ContractService = require("../../services/contractService");
-const {Contract} = require("../../model");
-const {Op} = require("sequelize");
+const ContractService = require("../../services/contractService")
+const {Contract} = require("../../model")
+const {Op} = require("sequelize")
 
 jest.mock("../../model", () => ({
     Contract: {
         findOne: jest.fn(),
         findAll: jest.fn()
     }
-}));
+}))
 
 describe('ContractService', () => {
 
     afterEach(() => {
-        Contract.findOne.mockClear();
-    });
+        Contract.findOne.mockClear()
+    })
 
     describe('getContractsById', () => {
         it('Should return contracts by id and clientId successfully', async () => {
@@ -27,7 +27,7 @@ describe('ContractService', () => {
                 "ClientId": 2
             }
 
-            Contract.findOne.mockResolvedValueOnce(expectedContract);
+            Contract.findOne.mockResolvedValueOnce(expectedContract)
 
             const service = new ContractService()
             const result = await service.getContractsById(contractId, clientId)
@@ -35,18 +35,18 @@ describe('ContractService', () => {
             expect(result.id).toEqual(expectedContract.id)
             expect(result.terms).toEqual(expectedContract.terms)
             expect(result.status).toEqual(expectedContract.status)
-            expect(Contract.findOne).toHaveBeenCalledWith({where: {id: contractId, 'ClientId': clientId}});
+            expect(Contract.findOne).toHaveBeenCalledWith({where: {id: contractId, 'ClientId': clientId}})
         })
 
         it('Should throw an error when contract is not found', async () => {
             const contractId = 3
             const clientId = 2
 
-            Contract.findOne.mockResolvedValueOnce(null);
+            Contract.findOne.mockResolvedValueOnce(null)
 
             const service = new ContractService()
-            await expect(service.getContractsById(contractId, clientId)).rejects.toThrow('Contract not found');
-            expect(Contract.findOne).toHaveBeenCalledWith({where: {id: contractId, 'ClientId': clientId}});
+            await expect(service.getContractsById(contractId, clientId)).rejects.toThrow('Contract not found')
+            expect(Contract.findOne).toHaveBeenCalledWith({where: {id: contractId, 'ClientId': clientId}})
         })
     })
 
@@ -77,13 +77,13 @@ describe('ContractService', () => {
                 },
             ]
 
-            Contract.findAll.mockResolvedValueOnce(expectedClientContracts);
+            Contract.findAll.mockResolvedValueOnce(expectedClientContracts)
             const service = new ContractService()
 
             const result = await service.getContractsBy(userId, type, status)
 
             expect(result).toEqual(expectedClientContracts)
-            expect(Contract.findAll).toHaveBeenCalledWith({where: {"ClientId": userId, 'status': status}});
+            expect(Contract.findAll).toHaveBeenCalledWith({where: {"ClientId": userId, 'status': status}})
         })
 
         it('Should return all contracts belong to a contractor', async () => {
@@ -111,13 +111,13 @@ describe('ContractService', () => {
                 },
             ]
 
-            Contract.findAll.mockResolvedValueOnce(expectedClientContracts);
+            Contract.findAll.mockResolvedValueOnce(expectedClientContracts)
             const service = new ContractService()
 
             const result = await service.getContractsBy(userId, type, status)
 
             expect(result).toEqual(expectedClientContracts)
-            expect(Contract.findAll).toHaveBeenCalledWith({where: {"ContractorId": userId, 'status': status}});
+            expect(Contract.findAll).toHaveBeenCalledWith({where: {"ContractorId": userId, 'status': status}})
         })
     })
 })

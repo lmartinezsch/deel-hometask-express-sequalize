@@ -1,5 +1,5 @@
-const {Job, Contract, Profile} = require("../model");
-const {ProfileTypesEnum} = require("../utils/utils.enum");
+const {Job, Contract, Profile} = require("../model")
+const {ProfileTypesEnum} = require("../utils/utils.enum")
 
 class JobService {
 
@@ -20,9 +20,9 @@ class JobService {
             throw new Error('The user is not a client')
         }
 
-        const job = await Job.findByPk(jobId);
+        const job = await Job.findByPk(jobId)
         if (!job) {
-            throw new Error('Job not found');
+            throw new Error('Job not found')
         }
 
         if (job.paid === true) {
@@ -33,23 +33,23 @@ class JobService {
             throw new Error('The balance is less than the job price')
         }
 
-        const contract = await Contract.findByPk(job.ContractId);
+        const contract = await Contract.findByPk(job.ContractId)
 
         if (!contract) {
-            throw new Error('Contract not found');
+            throw new Error('Contract not found')
         }
 
-        const contractorProfile = await Profile.findByPk(contract.ContractorId);
+        const contractorProfile = await Profile.findByPk(contract.ContractorId)
 
         if (!contractorProfile) {
-            throw new Error('Contractor profile not found');
+            throw new Error('Contractor profile not found')
         }
 
         await this.profileRepository.transferBalance(client.id, contractorProfile.id, job.price)
 
         // Mark job as paid
-        job.paid = true;
-        await job.save();
+        job.paid = true
+        await job.save()
     }
 }
 
