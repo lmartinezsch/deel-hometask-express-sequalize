@@ -1,15 +1,12 @@
-const {Contract} = require("../model")
 const {Op} = require("sequelize")
 const {ContractStatusEnum} = require("../utils/utils.enum")
+const {NotFoundError} = require("../errors/errors");
 
 class ContractController {
     constructor(contractService) {
         this.contractService = contractService
     }
 
-    /**
-     * @returns contract by id
-     */
     getContractById = async (req, res) => {
         const {id} = req.params
         const clientId = req.profile.id
@@ -20,7 +17,11 @@ class ContractController {
             res.json(contract)
         } catch (error) {
             console.error('Error to get specific contract:', error)
-            res.status(500).json({error: error.message})
+            if (error instanceof NotFoundError) {
+                res.status(error.statusCode).json({error: error.message})
+            } else {
+                res.status(500).json({error: error.message})
+            }
         }
     }
 

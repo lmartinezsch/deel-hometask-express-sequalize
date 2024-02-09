@@ -1,10 +1,11 @@
 const {Contract} = require("../model")
 const {ProfileTypesEnum} = require("../utils/utils.enum")
+const {NotFoundError} = require("../errors/errors");
 
 class ContractService {
     getContractsById = async (id, clientId) => {
         const contract = await Contract.findOne({where: {id, 'ClientId': clientId}})
-        if (!contract) throw new Error('Contract not found')
+        if (!contract) throw new NotFoundError('Contract not found')
 
         return contract
     }

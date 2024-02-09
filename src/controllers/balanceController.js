@@ -1,4 +1,4 @@
-const {ProfileNotFoundError, DepositAmountExceedsLimitError} = require("../errors/errors")
+const {DepositAmountExceedsLimitError, NotFoundError} = require("../errors/errors")
 
 class BalanceController {
 
@@ -15,10 +15,10 @@ class BalanceController {
             res.status(204).json()
         } catch (error) {
             console.error('Error to deposit:', error)
-            if (error instanceof ProfileNotFoundError) {
-                res.status(404).json({error: error.message})
+            if (error instanceof NotFoundError) {
+                res.status(error.statusCode).json({error: error.message})
             } else if (error instanceof DepositAmountExceedsLimitError) {
-                res.status(400).json({error: error.message})
+                res.status(error.statusCode).json({error: error.message})
             } else {
                 console.error(error)
                 res.status(500).json({error: 'Internal server error'})

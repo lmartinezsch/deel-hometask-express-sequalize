@@ -1,5 +1,5 @@
 const {Profile} = require("../model")
-const {ProfileNotFoundError, DepositAmountExceedsLimitError} = require("../errors/errors")
+const {DepositAmountExceedsLimitError, NotFoundError} = require("../errors/errors")
 
 class BalanceService {
 
@@ -12,7 +12,7 @@ class BalanceService {
         try {
             const profile = await Profile.findByPk(clientId)
             if (!profile) {
-                throw new ProfileNotFoundError('Profile not found')
+                throw new NotFoundError('Profile not found')
             }
 
             await this.checkContracts(profile, amount)

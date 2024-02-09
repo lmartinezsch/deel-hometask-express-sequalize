@@ -1,4 +1,5 @@
 const {ProfileTypesEnum} = require("../utils/utils.enum")
+const {NotFoundError, JobAlreadyPaidError, InsufficientBalanceError} = require("../errors/errors");
 
 class JobController {
 
@@ -26,7 +27,15 @@ class JobController {
             res.status(204).json()
         } catch (error) {
             console.error('Error to pay for a job:', error)
-            res.status(500).json({error: 'Internal server error'})
+            if (error instanceof NotFoundError) {
+                res.status(error.statusCode).json({error: error.message})
+            } else if (error instanceof JobAlreadyPaidError) {
+                res.status(error.statusCode).json({error: error.message})
+            } else if (error instanceof InsufficientBalanceError) {
+                res.status(error.statusCode).json({error: error.message})
+            } else {
+                res.status(500).json({error: 'Internal server error'})
+            }
         }
     }
 
